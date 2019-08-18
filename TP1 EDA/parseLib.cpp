@@ -2,7 +2,18 @@
 #include <stdlib.h>
 #include "parseLib.h"
 
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+void standardKey(char *key);
+void reverseKey(char *key);
+ /*******************************************************************************
+  *******************************************************************************
+						 GLOBAL FUNCTION DEFINITIONS
+  *******************************************************************************
+  ******************************************************************************/
 
+  /************************************  parseCmdLine  ***********************************/
 int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userData) {
 	int counter = 0, i = 1, parseFSM = INIT;
 	if (argc == 1) {														//Si no hay opciones ni parametros
@@ -33,6 +44,7 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 				}
 				break;
 			case VALUE:													//Si la clave era valida y tenia valor
+				standardKey(argv[i]);									//Se normaliza la clave (se remueve el guion)
 				if(parseCallback(argv[i], argv[i+1], userData) == 0){	//Se llama al Callback para verificarla
 					parseFSM = ERROR;									//Si no es valida, se reporta un error
 				}
@@ -42,6 +54,7 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 					counter++;											//Aumenta el contador
 					parseFSM = INIT;									//Se reinicia la FSM
 				}
+				reverseKey(argv[i]);									//Se devuelve a la clave a su estado original
 				/*
 				//Lo de abajo es solo para probar, eliminar en Release Version
 				printf("KEY: %s\n", argv[i]);
@@ -78,4 +91,28 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 		}
 	}
 	return counter;														//Se devuelve el contador
+}
+//Esta funcion toma una clave, y la acomoda para borrarle el guion '-'
+void standardKey(char* key) {
+	int i = 0;
+	char aux;
+	for (i = 0; (*(key + i + 1) != '\0') && (*(key + i + 1) != '\n'); i++) {	//Se recorre el string
+		*(key + i) = *(key + i + 1);											//Moviendo los chars una posicion antes
+	}
+	*(key + i) = '\0';															//Se agrega el terminador anteultimo
+	return;
+}
+//Esta funcion toma una clave con el guion '-' removido, y se lo agrega
+void reverseKey(char* key) {
+	int i = 0;
+	char aux1, aux2;
+	aux1 = *key;
+	*key = '-';																	//Se vuelve a colocar el guion
+	for (i = 1; *(key + i) != '\0'; i++) {										//Se acomodan los chars
+		aux2 = *(key + i);														//En su posicion original
+		*(key + i) = aux1;
+		aux1 = aux2;
+	}
+	*(key + i) = aux1;															//Se devuelve el ultimo caracter.
+	return;
 }
