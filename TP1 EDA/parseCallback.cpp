@@ -61,18 +61,21 @@ static const char* parametros[] = { "redondeo1","redondeo2", "redondeo3","redond
 
 /************************************  parseCallback  ***********************************/
 int parseCallback(char* key, char* value, void* userData) {
+	/*testing*/
+	int k = 1;
+	printf("Callback nro %d: con key %s, value %s y pointer %p\n", k++ ,key, value, userData);
+	/********/
+
 	userData_t* pointerData = (userData_t*)userData;
-	static int opY = 0;		//inicialmente nose puede usar -y
-	//bool aridad = 1;		//si la operacion es unaria o binaria
-	bool newOp = 1;		//habilita otra operación
-	//int counter = 0;		//cuenta cantidad de operandos
+	static int opY = 0;		//inicialmente nose puede usar "y"
+	bool newOp = 1;			//habilita otra operación
 	int keyPlace;			//lugar de la clave en el arreglo de opciones
 	int valuePlace;			//lugar del valor en una lista
-	int parameterPlace;
-	int numberList;
+	int parameterPlace;		//lugar del parámetro en el arreglo de parámetros
+	int numberList;			
 	double valor;			//valor numérico 
 
-	printf("clave\n");
+	printf("CLAVE\n");
 	//CLAVE
 	keyPlace = check(key, opciones[CLAVES], sizeof(opciones[CLAVES]) / sizeof(char*));
 	printf("keyPlace = %d\n", keyPlace);

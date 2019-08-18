@@ -3,6 +3,8 @@
 #include "parseLib.h"
 #include "parseCallback.h"
 
+#define PI 3.141592654
+
 static unsigned int factorial(unsigned int n);
 
 int main(int argc, char*argv[]) {
@@ -23,9 +25,10 @@ int main(int argc, char*argv[]) {
 	aux = parseCmdLine(argctest, argvtest, p, NULL);
 	printf("Function returned %d\n", aux);
 	*/
-
+	
 	pCallback_t pToCallback = parseCallback;
 	userData_t datos;
+	
 	int arguments = parseCmdLine(argc, argv, pToCallback, &datos);
 	printf("Arguments: %d\n", arguments);
 	if (arguments == -1)
@@ -33,14 +36,15 @@ int main(int argc, char*argv[]) {
 		printf("Error\n");
 		return 0;
 	}
+	
 
 	//printf("Operacion %d\n", datos.operacion);
 
 	/*****************TESTING*******************
 	int a, b, c, d, e;
-	a = parseCallback((char*)"tan", (char*)"350", &datos);
-	b = parseCallback((char*)"angulo", (char*)"gradianes", &datos);
-	c = parseCallback(NULL, (char*)"redondeo3", &datos);
+	a = parseCallback((char*)"", (char*)"10.0", &datos);
+	b = parseCallback((char*)"angulo", (char*)"grados", &datos);
+	c = 3; //parseCallback(NULL, (char*)"redondeo3", &datos);
 	d = 4;// parseCallback((char*)"suma", (char*)"1", &datos);
 	e = 5;// parseCallback((char*)"suma", (char*)"1", &datos);
 	printf("Operacion %d\n", datos.operacion);
