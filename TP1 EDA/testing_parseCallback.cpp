@@ -24,7 +24,6 @@
    /*******************************************************************************
 	* ENUMERATIONS AND STRUCTURES AND TYPEDEFS
 	******************************************************************************/
-
 typedef const char* lista_t[];
 typedef lista_t* pToLista_t[];
 
@@ -32,7 +31,7 @@ typedef lista_t* pToLista_t[];
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static int check(const char* palabra, const char* lista[], int items);
+static int check(char* palabra, const char* lista[], int items);
 static int checkForZero(char* cadena);
 static void saveNumber(userData_t* pointerData, int opNumber, double number);
 
@@ -51,7 +50,7 @@ static lista_t list0 = { "grados", "radianes" , "gradianes" };
 static lista_t list1 = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 static pToLista_t ptLista = { (lista_t *) &list0, (lista_t *) &list1 , NULL};
 
-static const char* parametros[] = { "redondeo1","redondeo2", "redondeo3","redondeo4"};
+static const char* parametros[] = { "redondeo","notcientifica" };
 
 /*******************************************************************************
  *******************************************************************************
@@ -81,13 +80,11 @@ int parseCallback(char* key, char* value, void* userData) {
 		printf("CASO 1 -R0\n");
 		return 0;
 	}
-	//else if ((keyPlace != expo || pointerData->exponente != -1) && pointerData->base == -1) {
-		if (keyPlace < y && pointerData->operacion != -1)	//caso dos operaciones
-		{
-			printf("CASO 2 -R0\n");
-			return 0;
-		}
-	//}
+	else if (keyPlace < y && pointerData->operacion != -1)	//caso dos operaciones
+	{
+		printf("CASO 2 -R0\n");
+		return 0;
+	}
 	else if (keyPlace == y && opY == 0)	//caso donde no valía -y
 	{
 		printf("CASO 3 -R0\n");
@@ -141,9 +138,7 @@ int parseCallback(char* key, char* value, void* userData) {
 		else				//aca guardo el valor de la palabra en el enum correspondiente y en la variable correspondiente.	
 		{
 			if (keyPlace == angulo) { pointerData->angulo = valuePlace; }
-			printf("exponente %d\n", valuePlace);
-			printf("%d = %d\n", keyPlace, expo);
-			if (keyPlace == expo) { pointerData->exponente = valuePlace; printf("exponente2 %d\n", pointerData->exponente); }
+			if (keyPlace == expo) { pointerData->exponente = valuePlace; }
 			//otros ifs
 			printf("CASO 3 - R1\n");
 			return 1;
@@ -158,7 +153,7 @@ int parseCallback(char* key, char* value, void* userData) {
 			printf("CASO 6 -R0\n");
 			return 0;
 		}
-		printf("numero %f _ keyplace %d\n",valor, keyPlace);
+		printf("numero %f keyplace %d\n",valor, keyPlace);
 		saveNumber(pointerData, keyPlace, valor);
 		printf("CASO 4 - R1\n");
 		return 1;
@@ -184,18 +179,15 @@ int parseCallback(char* key, char* value, void* userData) {
 			printf("CASO 7 -R0\n");
 			return 0;
 		}
-		else if ((parameterPlace == redondeo1 && pointerData->redondeo1 == 1) || (parameterPlace == redondeo2 && pointerData->redondeo2 == 1) || 
-			(parameterPlace == redondeo3 && pointerData->redondeo3 == 1) || (parameterPlace == redondeo4 && pointerData->redondeo4 == 1) )
+		else if ((parameterPlace == redondeo && pointerData->redondeo == 1) || (parameterPlace == notcientifica && pointerData->notcientifica == 1))
 		{
 			printf("CASO 8 -R0\n");
 			return 0;
 		}
 		else
 		{
-			if (parameterPlace == redondeo1) { pointerData->redondeo1 = true; }
-			if (parameterPlace == redondeo2) { pointerData->redondeo2 = true; }
-			if (parameterPlace == redondeo3) { pointerData->redondeo3 = true; }
-			if (parameterPlace == redondeo4) { pointerData->redondeo4 = true; }
+			if (parameterPlace == redondeo) { pointerData->redondeo = 1; }
+			if (parameterPlace == notcientifica) { pointerData->notcientifica = 1; }
 			printf("CASO 6 - R1\n");
 			return 1;
 		}
@@ -210,7 +202,7 @@ int parseCallback(char* key, char* value, void* userData) {
  ******************************************************************************/
 
 //verifica si la palabra está o no en una lista de palabras. Devuelve el lugar del item correspondiente si está y -1 sino.
-static int check(const char* palabra, const char* lista[], int items)
+static int check(char* palabra, const char* lista[], int items)
 {
 	for (int i = 0; i < items; i++) {
 		if (strcmp(palabra, *(lista + i)) == 0)		//si la palabra está en la lista
@@ -249,27 +241,20 @@ static int checkForZero(char* cadena) {
 
 static void saveNumber(userData_t* pointerData, int opNumber, double number)
 {
-	printf("keyPlace in saveNumber: %d\n", opNumber);
+	printf("save number: %d\n", opNumber);
 	static int counter = 0;
 	if (opNumber != y)
 	{
 		printf("check number %f\n",number);
 		pointerData->operando1 = number;
-		printf("Operando1: %f\n", pointerData->operando1);
 		printf("counter = %d\n", counter);
 		if (opNumber < 4) { counter++; }
 		printf("counter = %d\n", counter);
 	}
 	else if (opNumber == y)
 	{
-		printf("check yyyy\n");
+		printf("check here\n");
 		pointerData->operando2 = number;
-	}
-	
-	if (opNumber == base)
-	{
-		printf("Save in base(%d) %f confirmed\n",base, number);
-		pointerData->base = number;
 	}
 	return;
 }

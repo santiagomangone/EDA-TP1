@@ -125,8 +125,10 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parseLib.cpp" />
+    <ClCompile Include="parseCallback.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="parseCallback.h" />
     <ClInclude Include="parseLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -19,16 +19,20 @@ typedef struct
 	double operando1;
 	double operando2; //opcional
 
-	double base;
+	double base = -1;
 	int exponente = -1;
 
 	int angulo = -1;
 	char nota[140] = {'\0'};	//como mucho un tweet
 
 	//parametros
-	bool redondeo = false;
-	bool notcientifica = false;
+	bool redondeo1,redondeo2,redondeo3,redondeo4 = false;
 }userData_t;
+
+enum claves { suma, resta, producto, cociente, fact, seno, coseno, tg, raiz, ln, logd, modulo, expo, base, y, angulo, nota };
+enum angulos { grados, radianes, gradianes };
+enum potencias { n1, n2, n3, n4, n5, n6, n7, n8, n9, n10 };
+enum parametros { redondeo1, redondeo2, redondeo3, redondeo4 };
 
  /*******************************************************************************
   * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

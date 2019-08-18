@@ -21,9 +21,15 @@
     <ClCompile Include="parseLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parseCallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parseLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parseCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

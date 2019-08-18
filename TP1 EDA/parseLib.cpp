@@ -3,7 +3,7 @@
 #include "parseLib.h"
 
 
-int parseCmdLine(int argc, char* argv[], pCallback p, void* userData) {
+int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userData) {
 	int counter = 0, i = 1, parseFSM = INIT;
 	if (argc == 1) {														//Si no hay opciones ni parametros
 		printf("NO ARGUMENTS DETECTED\n");
@@ -33,7 +33,7 @@ int parseCmdLine(int argc, char* argv[], pCallback p, void* userData) {
 				}
 				break;
 			case VALUE:													//Si la clave era valida y tenia valor
-				/*if(parseCallback(argv[i], argv[i+1], userData) == 0){	//Se llama al Callback para verificarla
+				if(parseCallback(argv[i], argv[i+1], userData) == 0){	//Se llama al Callback para verificarla
 					parseFSM = ERROR;									//Si no es valida, se reporta un error
 				}
 				else{													//Si no
@@ -42,7 +42,7 @@ int parseCmdLine(int argc, char* argv[], pCallback p, void* userData) {
 					counter++;											//Aumenta el contador
 					parseFSM = INIT;									//Se reinicia la FSM
 				}
-				*/
+				/*
 				//Lo de abajo es solo para probar, eliminar en Release Version
 				printf("KEY: %s\n", argv[i]);
 				printf("VALUE: %s\n", argv[i+1]);
@@ -50,21 +50,23 @@ int parseCmdLine(int argc, char* argv[], pCallback p, void* userData) {
 				i++;
 				counter++;
 				parseFSM = INIT;
+				*/
 				break;
 			case PARAM:															//Si se detecta un parametro
-				/*if(parseCallback(NULL, argv[i+1], userData) == 0){			//Se chequea validez
+				if(parseCallback(NULL, argv[i+1], userData) == 0){			//Se chequea validez
 					parseFSM = ERROR;											//Si el parametro es invalido tira error
 				}
 				else{															//Si es valido
 					i++;														//Se posiciona el puntero en el siguiente argumento
 					parseFSM = INIT;											//Se reinicia la FSM
 				}
-				*/
+				/*
 				//Lo de abajo es solo para probar, eliminar en Release Version
 				printf("PARAM: %s\n", argv[i]);
 				i++;
 				counter++;
 				parseFSM = INIT;
+				*/
 				break;
 			case ERROR:													//En caso de eroor
 				printf("ERROR DETECTED\n");	
