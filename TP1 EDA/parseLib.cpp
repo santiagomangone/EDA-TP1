@@ -49,12 +49,12 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 					parseFSM = ERROR;									//Si no es valida, se reporta un error
 				}
 				else{													//Si no
+					reverseKey(argv[i]);								//Se devuelve a la clave a su estado original
 					i++;												//Se posiciona el puntero en el siguente
 					i++;												//posible argumento
 					counter++;											//Aumenta el contador
 					parseFSM = INIT;									//Se reinicia la FSM
 				}
-				reverseKey(argv[i]);									//Se devuelve a la clave a su estado original
 				/*
 				//Lo de abajo es solo para probar, eliminar en Release Version
 				printf("KEY: %s\n", argv[i]);
@@ -106,6 +106,8 @@ void standardKey(char* key) {
 void reverseKey(char* key) {
 	int i = 0;
 	char aux1, aux2;
+	if(key == NULL)
+		printf("Key pointer address is NULLPTR\n");	
 	aux1 = *key;
 	*key = '-';																	//Se vuelve a colocar el guion
 	for (i = 1; *(key + i) != '\0'; i++) {										//Se acomodan los chars
