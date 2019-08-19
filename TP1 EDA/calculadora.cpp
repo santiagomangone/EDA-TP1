@@ -1,9 +1,30 @@
+/***************************************************************************//**
+ @file     +calculadora.cpp+
+ @brief    +Realiza las operaciones a partir de la estructura de datos+
+ @author   +Grupo 3. Alejo Figueroa, Pablo Gonzalez, Santiago Mangone+
+******************************************************************************/
+
+/*******************************************************************************
+* INCLUDE HEADER FILES
+******************************************************************************/
 #include <stdio.h>
 #include <math.h>
 #include "calculadora.h"
 
+/*******************************************************************************
+* CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+******************************************************************************/
 #define PI 3.141592654
 
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+typedef double (*binaria) (double, double);
+typedef double (*unaria) (double);
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 static double fsuma(double a, double b);
 static double fresta(double a, double b);
 static double fproducto(double a, double b);
@@ -11,16 +32,21 @@ static double fcociente(double a, double b);
 static double factorial( double n);
 static double redondear(double number, int figures);
 static void manual(void);
-//static double potencia(double base, double exponente);
 
+/*******************************************************************************
+ *******************************************************************************
+						GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 void calculadora(userData_t datos) {
-	printf("Operacion %d, Op1 %f, Op2 %f, Base %f, Exp %d, Angulo %d, Nota %s\n", datos.operacion, datos.operando1, datos.operando2, datos.base, datos.exponente, datos.angulo, datos.nota);
+	/* TESTING */
+	//printf("Operacion %d, Op1 %f, Op2 %f, Base %f, Exp %d, Angulo %d, Nota %s\n", datos.operacion, datos.operando1, datos.operando2, datos.base, datos.exponente, datos.angulo, datos.nota);
+	/************/
+
 	double angle = datos.operando1;
 	double ans;
 	int figures = 0;
 
-	typedef double (*binaria) (double,double);
-	typedef double (*unaria) (double);
 	void* funciones[] = { fsuma,fresta,fproducto,fcociente,factorial,sin,cos,tan,sqrt,log,log10,fabs,pow };
 
 	//AYUDA
@@ -41,10 +67,7 @@ void calculadora(userData_t datos) {
 		}
 	}
 	else if (datos.angulo != -1)
-		printf("Operacion sin angulos\n");
-
-	//printf("Operando1: %f ... Operando2: %f\n", datos.operando1, datos.operando2);
-
+		printf("Nota: Operacion sin angulos\n");
 
 	//NOTAS DEL USUARIO
 	if (datos.nota[0] != '\0')
@@ -79,7 +102,7 @@ void calculadora(userData_t datos) {
 		ans = redondear(ans, figures);
 	}
 
-	//AL USUARIO
+	//INTERFACE
 	switch (datos.operacion)
 	{
 	case suma:
@@ -94,7 +117,8 @@ void calculadora(userData_t datos) {
 	case cociente:
 		if (datos.operando2 == 0)
 			printf("El denominador es cero, la division no esta definida.\n");
-		printf("%f / %f = %f\n", datos.operando1, datos.operando2, ans);
+		else
+			printf("%f / %f = %f\n", datos.operando1, datos.operando2, ans);
 		break;
 	case fact:
 		if (datos.operando1 < 0 || (datos.operando1) != (int)datos.operando1)
@@ -118,14 +142,14 @@ void calculadora(userData_t datos) {
 			printf("sqrt(%f) = %f\n", datos.operando1, ans);
 		break;
 	case ln:
-		if (datos.operando1 < 0)
-			printf("El logaritmo natural no esta definido para numeros negativos.\n");
+		if (datos.operando1 <= 0)
+			printf("El logaritmo natural no esta definido para numeros no positivos.\n");
 		else
 			printf("ln(%f) = %f\n", datos.operando1, ans);
 		break;
 	case logd:
-		if (datos.operando1 < 0)
-			printf("El logaritmo decimal no esta definido para numeros negativos.\n");
+		if (datos.operando1 <= 0)
+			printf("El logaritmo decimal no esta definido para numeros no positivos.\n");
 		else
 			printf("log(%.2f) = %.2f\n", datos.operando1, ans);
 		break;
@@ -135,13 +159,15 @@ void calculadora(userData_t datos) {
 	case expo:
 		if (datos.base < 0)
 			printf("Defina una base válida. La potencia esta definida para base positiva o cero.\n");
+		else if (datos.exponente == -1)
+			printf("Defina un exponente valido: entero 0-10.");
 		else
 			printf("%f^%d = %f", datos.base, datos.exponente, ans);
 		break;
 	}
 }
 
-void manual(void)
+static void manual(void)
 {
 	printf(
 		"___________________________________________________________________________________________________________________\n"
@@ -167,14 +193,18 @@ void manual(void)
 		"  ayuda. Despliega este manual.\n"
 		"___________________________________________________________________________________________________________________\n"
 	);
+	return;
 }
 
-//factorial
+/*******************************************************************************
+ *******************************************************************************
+						LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 static double factorial(double n) 
 {
 	if ( (int)n != n)
 	{
-		printf("El factorial se define para enteros no negativos\n");
 		return -1;
 	}
 	if (n < 1)
@@ -206,25 +236,22 @@ static double fcociente(double a, double b)
 	}
 	return a / b;
 }
-/*
-static double potencia(double base, double exponente) {
-	return exp(exponente * log(base));
-}
-*/
 
 static double redondear(double number, int figures) {
 	double a, b, c, result;
 	bool up;
-	a = number * pow(10, (double)(figures));
+	a = number * pow(10, (double)(figures));	
 	b = a - (int)a;
-	c = (int)(10 * b);
-	((c >= 5) || (c <= -5)) ? (up = 1) : (up = 0);
-	//printf("a:%f b:%f c:%f\n", a, b, c);
+	c = (int)(10 * b);	//guarda como int el decimal siguiente al que se quiere redondear
+
+	((c >= 5) || (c <= -5)) ? (up = 1) : (up = 0);	//evalua si debe redondear hacia arriba o hacia abajo
+
 	if (up == 1 && number >= 0)
-		result = (int)(number * pow(10, (double)(figures)) + 1) / pow(10, figures);
+		result = (int)(number * pow(10, (double)(figures)) + 1) / pow(10, figures);		//redondea hacia arriba un positivo
 	else if (up == 1 && number < 0)
-		result = (int)(number * pow(10, (double)(figures)) - 1) / pow(10, figures);
+		result = (int)(number * pow(10, (double)(figures)) - 1) / pow(10, figures);		//redondea hacia arriba un negativo
 	else
-		result = (int)(number * pow(10, (double)figures)) / pow(10, figures);
+		result = (int)(number * pow(10, (double)figures)) / pow(10, figures);			//redondea hacia abajo
+
 	return result;
 }
