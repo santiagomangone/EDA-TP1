@@ -121,9 +121,10 @@ int parseCallback(char* key, char* value, void* userData) {
 			printf("CASO 1 -R0\n");
 			return 0;
 		}
-		else if (adminKeys(&keyPlace, pointerData) == 0)
-			printf("adminKeys\n");
+		else if (adminKeys(&keyPlace, pointerData) == 0) {
+		printf("adminKeys\n");
 		return 0;
+		}
 	}
 
 	/*
