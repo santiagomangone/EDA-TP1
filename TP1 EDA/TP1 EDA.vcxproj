@@ -126,8 +126,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parseLib.cpp" />
     <ClCompile Include="parseCallback.cpp" />
+    <ClCompile Include="calculadora.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="calculadora.h" />
     <ClInclude Include="parseCallback.h" />
     <ClInclude Include="parseLib.h" />
   </ItemGroup>
