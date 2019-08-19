@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	pCallback_t pToCallback = parseCallback;
 	userData_t datos;
-
+	
 	int arguments = parseCmdLine(argc, argv, pToCallback, &datos);
 	printf("Arguments: %d\n", arguments);
 	if (arguments == -1)
@@ -33,13 +33,14 @@ int main(int argc, char* argv[]) {
 		printf("Error\n");
 		return 0;
 	}
+	
 
 
 	//printf("Operacion %d\n", datos.operacion);
 
 	/*****************TESTING*******************
 	int a, b, c, d, e;
-	a = parseCallback((char*)"", (char*)"10.0", &datos);
+	a = parseCallback((char*)"tan", (char*)"45", &datos);
 	b = parseCallback((char*)"angulo", (char*)"grados", &datos);
 	c = 3; //parseCallback(NULL, (char*)"redondeo3", &datos);
 	d = 4;// parseCallback((char*)"suma", (char*)"1", &datos);

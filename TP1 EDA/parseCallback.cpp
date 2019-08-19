@@ -64,7 +64,7 @@ static const char* parametros[] = { "redondeo1","redondeo2", "redondeo3","redond
 /************************************  parseCallback  ***********************************/
 int parseCallback(char* key, char* value, void* userData) {
 	/*testing*/
-	int k = 1;
+	static int k = 1;
 	printf("Callback nro %d: con key %s, value %s y pointer %p\n", k++, key, value, userData);
 	/********/
 
@@ -98,6 +98,7 @@ int parseCallback(char* key, char* value, void* userData) {
 			if (parameterPlace == redondeo2) { pointerData->redondeo2 = true; }
 			if (parameterPlace == redondeo3) { pointerData->redondeo3 = true; }
 			if (parameterPlace == redondeo4) { pointerData->redondeo4 = true; }
+			printf("redondeo 2: %d\n", pointerData->redondeo2);
 			printf("CASO 6 - R1\n");
 			return 1;
 		}
@@ -287,7 +288,7 @@ static void saveNumber(userData_t* pointerData, int opNumber, double number)
 	}
 	else if (opNumber == y)
 	{
-		printf("check yyyy\n");
+		printf("saves second value\n");
 		pointerData->operando2 = number;
 	}
 	
@@ -340,7 +341,7 @@ static int adminKeys(int* ptKeyPlace, userData_t * pointerData)
 		break;
 	case POTENCIA: case AND: case UNARIO:
 		if (keyPlace == nota && pointerData->nota[0] == '\0') { keyState = NOTA; }
-		else if (keyPlace == angulo && pointerData->angulo != -1) { keyState = ANGULO; }
+		else if (keyPlace == angulo && pointerData->angulo == -1) { keyState = ANGULO; }
 		else { return 0; printf("con keyState %d\n", keyState); }
 		break;
 	case BINARIO:
@@ -369,7 +370,6 @@ static int adminKeys(int* ptKeyPlace, userData_t * pointerData)
 		}
 		else if (keyPlace == nota && pointerData->nota[0] == '\0') 
 		{ 
-			pointerData->operacion = keyPlace;
 			keyState = NOTA; 
 		}
 		else { return 0; printf("con keyState %d\n", keyState); }

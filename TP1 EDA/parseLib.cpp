@@ -66,7 +66,7 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 				*/
 				break;
 			case PARAM:															//Si se detecta un parametro
-				if(parseCallback(NULL, argv[i+1], userData) == 0){			//Se chequea validez
+				if(parseCallback(NULL, argv[i], userData) == 0){			//Se chequea validez
 					parseFSM = ERROR;											//Si el parametro es invalido tira error
 				}
 				else{															//Si es valido
