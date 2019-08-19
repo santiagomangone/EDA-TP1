@@ -19,14 +19,16 @@ typedef struct
 
 	//parametros
 	bool redondeo1, redondeo2, redondeo3, redondeo4 = false;
+	bool ayuda = false;
 }userData_t;
 
 enum claves { suma, resta, producto, cociente, fact, seno, coseno, tg, raiz, ln, logd, modulo, expo, base, y, angulo, nota };
 enum angulos { grados, radianes, gradianes };
 enum potencias { n1, n2, n3, n4, n5, n6, n7, n8, n9, n10 };
-enum parametros { redondeo1, redondeo2, redondeo3, redondeo4 };
+enum parametros { redondeo1, redondeo2, redondeo3, redondeo4 ,ayuda};
 
 //PROTOTIPOS
 void calculadora(userData_t datos);
+
 
 #endif

@@ -53,7 +53,7 @@ static lista_t list0 = { "grados", "radianes" , "gradianes" };
 static lista_t list1 = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 static pToLista_t ptLista = { (lista_t *) &list0, (lista_t *) &list1 }; //,NULL
 
-static const char* parametros[] = { "redondeo1","redondeo2", "redondeo3","redondeo4"};
+static const char* parametros[] = { "redondeo1","redondeo2", "redondeo3","redondeo4","ayuda"};
 
 /*******************************************************************************
  *******************************************************************************
@@ -92,12 +92,18 @@ int parseCallback(char* key, char* value, void* userData) {
 			printf("CASO 8 -R0\n");
 			return 0;
 		}
+		else if (parameterPlace == ayuda && pointerData->ayuda == true) 
+		{
+			printf("CASO 9 -R0\n");
+			return 0;
+		}
 		else
 		{
 			if (parameterPlace == redondeo1) { pointerData->redondeo1 = true; }
 			if (parameterPlace == redondeo2) { pointerData->redondeo2 = true; }
 			if (parameterPlace == redondeo3) { pointerData->redondeo3 = true; }
 			if (parameterPlace == redondeo4) { pointerData->redondeo4 = true; }
+			if (parameterPlace == ayuda) { pointerData->ayuda = true; }
 			printf("redondeo 2: %d\n", pointerData->redondeo2);
 			printf("CASO 6 - R1\n");
 			return 1;
@@ -219,7 +225,7 @@ int parseCallback(char* key, char* value, void* userData) {
 		if (keyPlace == nota) {
 			char* clipNote = pointerData->nota;
 			strcpy_s(clipNote, 140, value);
-		};
+		}
 		//otros ifs
 		printf("CASO 5 - R1\n");
 		return 1;
@@ -336,7 +342,11 @@ static int adminKeys(int* ptKeyPlace, userData_t * pointerData)
 		else { return 0; printf("con keyState %d\n", keyState); }
 		break;
 	case BASE:
-		if (keyPlace == expo && pointerData->exponente == -1) { keyState = POTENCIA; }
+		if (keyPlace == expo && pointerData->exponente == -1) 
+		{ 
+			pointerData->operacion = keyPlace;
+			keyState = POTENCIA; 
+		}
 		else { return 0; printf("con keyState %d\n", keyState); }
 		break;
 	case POTENCIA: case AND: case UNARIO:
@@ -394,7 +404,7 @@ static int adminKeys(int* ptKeyPlace, userData_t * pointerData)
 			pointerData->operacion = keyPlace;
 			keyState = UNARIO; 
 		}
-		else if (keyPlace == nota && pointerData->angulo == -1) 
+		else if (keyPlace == angulo && pointerData->angulo == -1) 
 		{ 
 			keyState = ANGULO; 
 		}

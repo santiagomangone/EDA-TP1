@@ -10,6 +10,7 @@ static double fproducto(double a, double b);
 static double fcociente(double a, double b);
 static double factorial( double n);
 static double redondear(double number, int figures);
+static void manual(void);
 //static double potencia(double base, double exponente);
 
 void calculadora(userData_t datos) {
@@ -22,6 +23,9 @@ void calculadora(userData_t datos) {
 	typedef double (*unaria) (double);
 	void* funciones[] = { fsuma,fresta,fproducto,fcociente,factorial,sin,cos,tan,sqrt,log,log10,fabs,pow };
 
+	//AYUDA
+	if (datos.ayuda == true)
+		manual();
 
 	//ANGULOS
 	if (datos.operacion >= seno && datos.operacion <= tg) {
@@ -39,7 +43,7 @@ void calculadora(userData_t datos) {
 	else if (datos.angulo != -1)
 		printf("Operacion sin angulos\n");
 
-	printf("Operando1: %f ... Operando2: %f\n", datos.operando1, datos.operando2);
+	//printf("Operando1: %f ... Operando2: %f\n", datos.operando1, datos.operando2);
 
 
 	//NOTAS DEL USUARIO
@@ -47,7 +51,7 @@ void calculadora(userData_t datos) {
 		printf("%s\n", datos.nota);
 
 	//CUENTAS
-	if (datos.operacion <= cociente)
+	if (datos.operacion <= cociente && datos.operacion>=suma)
 	{
 		ans = ((binaria)funciones[datos.operacion])(datos.operando1, datos.operando2);
 	}
@@ -89,12 +93,12 @@ void calculadora(userData_t datos) {
 		break;
 	case cociente:
 		if (datos.operando2 == 0)
-			printf("El denominador es cero, la división no está definida.\n");
+			printf("El denominador es cero, la division no esta definida.\n");
 		printf("%f / %f = %f\n", datos.operando1, datos.operando2, ans);
 		break;
 	case fact:
 		if (datos.operando1 < 0 || (datos.operando1) != (int)datos.operando1)
-			printf("Error. El factorial está definido sobre los naturales y el cero.");
+			printf("Error. El factorial esta definido sobre los naturales y el cero.");
 		else
 			printf("%.0f! = %f\n", datos.operando1, ans);
 		break;
@@ -109,19 +113,19 @@ void calculadora(userData_t datos) {
 		break;
 	case raiz:
 		if (datos.operando1 < 0)
-			printf("La raíz cuadrada no está definida para números negativos.\n");
+			printf("La raiz cuadrada no esta definida para numeros negativos.\n");
 		else
 			printf("sqrt(%f) = %f\n", datos.operando1, ans);
 		break;
 	case ln:
 		if (datos.operando1 < 0)
-			printf("El logaritmo natural no está definido para números negativos.\n");
+			printf("El logaritmo natural no esta definido para numeros negativos.\n");
 		else
 			printf("ln(%f) = %f\n", datos.operando1, ans);
 		break;
 	case logd:
 		if (datos.operando1 < 0)
-			printf("El logaritmo decimal no está definido para números negativos.\n");
+			printf("El logaritmo decimal no esta definido para numeros negativos.\n");
 		else
 			printf("log(%.2f) = %.2f\n", datos.operando1, ans);
 		break;
@@ -130,11 +134,39 @@ void calculadora(userData_t datos) {
 		break;
 	case expo:
 		if (datos.base < 0)
-			printf("La potencia está definida para base positiva o cero.\n");
+			printf("Defina una base válida. La potencia esta definida para base positiva o cero.\n");
 		else
 			printf("%f^%d = %f", datos.base, datos.exponente, ans);
 		break;
 	}
+}
+
+void manual(void)
+{
+	printf(
+		"___________________________________________________________________________________________________________________\n"
+		"\nTrabajo Practico Nro 1 - EDA\n"
+		"Grupo 3\n"
+		"  Alejo Figueroa\n"
+		"  Pablo Gonzalez\n"
+		"  Santiago Mangone\n"
+		"\nOperaciones binarias\n"
+		"  -suma, -resta, -producto, -cociente\n"
+		"  Nota 1: las operaciones binarias usan la opcion -y para el segundo valor.\n"
+		"  Ejemplo: -suma 18.67 -y -12\n"
+		"\nPotenciacion\n"
+		"  Se usa -base para la base y -exp para el exponente (entero 0-10). Deben colocarse de forma contigua.\n"
+		"  Ejemplo: -base 12.5 -exp 4\n"
+		"\nOperaciones unarias\n"
+		"  -fact, -sen, -cos, -tan, -raiz, -ln, -log, -modulo\n"
+		"  Nota 2: salvo aclaracion, los valores son double. Luego se validan los dominios de las funciones.\n"
+		"\nOtras opciones\n"
+		"  -angulo. Permite elegir entre grados, radianes y gradianes para operaciones con angulos.\n"
+		"\nParametros\n"
+		"  nota. Permite agregar una nota del usuario a la cuenta final.\n"
+		"  ayuda. Despliega este manual.\n"
+		"___________________________________________________________________________________________________________________\n"
+	);
 }
 
 //factorial
@@ -170,7 +202,7 @@ static double fcociente(double a, double b)
 {
 	if (b == 0)
 	{
-		printf("Denominador 0");
+		printf("Denominador 0\n");
 	}
 	return a / b;
 }
@@ -187,7 +219,7 @@ static double redondear(double number, int figures) {
 	b = a - (int)a;
 	c = (int)(10 * b);
 	((c >= 5) || (c <= -5)) ? (up = 1) : (up = 0);
-	printf("a:%f b:%f c:%f\n", a, b, c);
+	//printf("a:%f b:%f c:%f\n", a, b, c);
 	if (up == 1 && number >= 0)
 		result = (int)(number * pow(10, (double)(figures)) + 1) / pow(10, figures);
 	else if (up == 1 && number < 0)
