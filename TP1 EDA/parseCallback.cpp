@@ -28,8 +28,17 @@
 /*******************************************************************************
 * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
 ******************************************************************************/
+enum keyStates { INIT, EXPO, BASE, POTENCIA, BINARIO, AND, UNARIO, ANGULO, NOTA };
+
 typedef const char* lista_t[];	//arreglo de punteros a string
 typedef lista_t* pToLista_t[];	//arreglo de punteros a arreglos de punteros a string
+
+/*******************************************************************************
+ * VARIABLES WITH GLOBAL SCOPE
+ ******************************************************************************/
+#ifdef TESTING
+int keyState = INIT;		//estado de la FSM
+#endif
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -284,8 +293,10 @@ Recibe un puntero al lugar de la clave en el arreglo y un puntero a la estructur
 */
 static int adminKeys(int* ptKeyPlace, userData_t * pointerData)
 {
-	enum keyStates {INIT, EXPO, BASE, POTENCIA, BINARIO, AND, UNARIO, ANGULO, NOTA};
+	#ifdef RELEASE
 	static int keyState = INIT;		//estado de la FSM
+	#endif
+
 	int keyPlace = *ptKeyPlace;		//lugar de la clave en el arreglo
 	//printf("Entra con keyState %d\n", keyState);
 	switch (keyState) {

@@ -26,7 +26,7 @@ typedef struct
 	char nota[140] = { '\0' };	//como mucho un tweet
 
 	//parametros
-	bool redondeo1, redondeo2, redondeo3, redondeo4 = false;
+	bool redondeo1 = false, redondeo2 = false, redondeo3 = false, redondeo4 = false;
 	bool ayuda = false;
 }userData_t;
 

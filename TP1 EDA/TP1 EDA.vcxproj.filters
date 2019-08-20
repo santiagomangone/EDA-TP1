@@ -27,6 +27,9 @@
     <ClCompile Include="calculadora.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bench.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parseLib.h">

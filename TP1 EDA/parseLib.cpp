@@ -95,7 +95,6 @@ int parseCmdLine(int argc, char* argv[], pCallback_t parseCallback, void* userDa
 //Esta funcion toma una clave, y la acomoda para borrarle el guion '-'
 void standardKey(char* key) {
 	int i = 0;
-	char aux;
 	for (i = 0; (*(key + i + 1) != '\0') && (*(key + i + 1) != '\n'); i++) {	//Se recorre el string
 		*(key + i) = *(key + i + 1);											//Moviendo los chars una posicion antes
 	}

@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bench.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parseLib.cpp" />
     <ClCompile Include="parseCallback.cpp" />
