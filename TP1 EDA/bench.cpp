@@ -125,11 +125,12 @@ static void testCmdLine(const char * testCase [], int  int* correctos, int* inco
 	if (check == -1)
 	{
 		(*incorrectos)++;
-
+		printf("PRUEBA INCORRECTA\n");
 	}
 	else
 	{
 		(*correctos)++;
+		printf("PRUEBA CORRECTA\n");
 	}
 	printf("\nFIN DE PRUEBA _%d_\n", nroDePrueba++);
 	return;
